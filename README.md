@@ -8,4 +8,6 @@ Originally based off of tutorial here: https://learn.sparkfun.com/tutorials/ws28
 We are assuming that you have Arduino already installed on your machine.
 
 ### LEDguide_test
-This is test code, produces rainbow lights along the strip.
+This is test code, produces rainbow lights along the strip. 
+
+### 
