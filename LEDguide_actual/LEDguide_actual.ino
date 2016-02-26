@@ -29,11 +29,17 @@
 // That'll be what we refer to from here on...
 Adafruit_NeoPixel leds = Adafruit_NeoPixel(LED_COUNT, PIN, NEO_GRB + NEO_KHZ800);
 
+//Variable for the other side of the switch 
+int switchPin = A0;
+int switchValue = 0;
+
 void setup()
 {
   leds.begin();  // Call this to start up the LED strip.
   clearLEDs();   // This function, defined below, turns all LEDs off...
   leds.show();   // ...but the LEDs don't actually update until you call this.
+  pinMode(13, OUTPUT);
+  Serial.begin(9600);
 }
 
 void loop()
@@ -54,21 +60,25 @@ void loop()
     cylon(INDIGO, 500);  // Indigo cylon eye!
   }
   */
-  
+  clearLEDs();
+  leds.show();
   // A light shower of spring green rain
   // This will run the cascade from top->bottom 20 times
-  
-  for (int i=0; i<20; i++)
-  {
-    readySetGo(1500);
-    // First parameter is the color, second is direction, third is ms between falls
-    cascade(MEDIUMSPRINGGREEN, TOP_DOWN, 100); 
-  }
-  
+  switchValue = analogRead(switchPin);
+  Serial.println(switchValue);
+  if(switchValue < 100){
+    digitalWrite(13, HIGH);
+    clearLEDs();
+    leds.show();
+  }else{
+  //whenever signal detected to be shut off, reset leds?
+    digitalWrite(13,LOW);
+      readySetGo(1500);
+      // First parameter is the color, second is direction, third is ms between falls
+      cascade(MEDIUMSPRINGGREEN, TOP_DOWN, 100);
+    }
 }
 
-// Implements a little larson "cylon" sanner.
-// This'll run one full cycle, down one way and back the other
 void readySetGo(byte wait)
 {
   leds.setPixelColor(0, RED);
