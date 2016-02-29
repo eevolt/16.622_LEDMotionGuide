@@ -23,7 +23,7 @@
 #include "WS2812_Definitions.h"
 
 #define PIN 4
-#define LED_COUNT 30
+#define LED_COUNT 48
 
 // Create an instance of the Adafruit_NeoPixel class called "leds".
 // That'll be what we refer to from here on...
@@ -32,6 +32,7 @@ Adafruit_NeoPixel leds = Adafruit_NeoPixel(LED_COUNT, PIN, NEO_GRB + NEO_KHZ800)
 //Variable for the other side of the switch 
 int switchPin = A0;
 int switchValue = 0;
+int viconTriggerPin = 6;
 
 void setup()
 {
@@ -44,38 +45,25 @@ void setup()
 
 void loop()
 {
-  /*
-  // Ride the Rainbow Road
-  for (int i=0; i<LED_COUNT*10; i++)
-  {
-    rainbow(i);
-    delay(100);  // Delay between rainbow slides
-  }
-  
-  // Indigo cylon
-  // Do a cylon (larson scanner) cycle 10 times
-  for (int i=0; i<10; i++)
-  {
-    // cylon function: first param is color, second is time (in ms) between cycles
-    cylon(INDIGO, 500);  // Indigo cylon eye!
-  }
-  */
   clearLEDs();
   leds.show();
-  // A light shower of spring green rain
-  // This will run the cascade from top->bottom 20 times
   switchValue = analogRead(switchPin);
   Serial.println(switchValue);
   if(switchValue < 100){
+    analogWrite(viconTriggerPin, 20);
     digitalWrite(13, HIGH);
     clearLEDs();
     leds.show();
   }else{
-  //whenever signal detected to be shut off, reset leds?
+    analogWrite(viconTriggerPin, 200);
     digitalWrite(13,LOW);
       readySetGo(1500);
       // First parameter is the color, second is direction, third is ms between falls
       cascade(MEDIUMSPRINGGREEN, TOP_DOWN, 100);
+      clearLEDs();
+      leds.show();
+      analogWrite(viconTriggerPin, 20);
+      delay(3000);
     }
 }
 
