@@ -55,14 +55,14 @@ void loop()
     clearLEDs();
     leds.show();
   }else{
-    analogWrite(viconTriggerPin, 200);
+   
     digitalWrite(13,LOW);
       readySetGo(1500);
       // First parameter is the color, second is direction, third is ms between falls
       cascade(MEDIUMSPRINGGREEN, TOP_DOWN, 100);
       clearLEDs();
       leds.show();
-      analogWrite(viconTriggerPin, 20);
+      
       delay(3000);
     }
 }
