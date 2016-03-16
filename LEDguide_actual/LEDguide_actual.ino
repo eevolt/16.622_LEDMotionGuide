@@ -23,7 +23,7 @@
 #include "WS2812_Definitions.h"
 
 #define PIN 4
-#define LED_COUNT 35
+#define LED_COUNT 30
 
 // Create an instance of the Adafruit_NeoPixel class called "leds".
 // That'll be what we refer to from here on...
@@ -31,8 +31,8 @@ Adafruit_NeoPixel leds = Adafruit_NeoPixel(LED_COUNT, PIN, NEO_GRB + NEO_KHZ800)
 
 //Variable for the other side of the switch 
 int switchPin = A0;
-int switchValue = 0;
-int viconTriggerPin = 6;
+int switchValue;
+//int viconTriggerPin = 6;
 int nat = 527;
 int wait_nat;
 int wait_60;
@@ -53,19 +53,19 @@ void loop()
   leds.show();
   switchValue = analogRead(switchPin);
   Serial.println(switchValue);
-  wait_nat = 320000/(20*nat);
+   
   
-  wait_60 = wait_nat/.6;
-  
-  wait_30 = wait_nat/.3;
-  
-  
-  if(switchValue < 100){
-    analogWrite(viconTriggerPin, 20);
+  /*if(switchValue < 100){
+    //analogWrite(viconTriggerPin, 20);
     digitalWrite(13, HIGH);
     clearLEDs();
     leds.show();
-  }else{
+  }else{*/
+    wait_nat = 320000/(20*nat);
+  
+    wait_60 = wait_nat/.6;
+  
+    wait_30 = wait_nat/.3;
    
     digitalWrite(13,LOW);
       readySetGo(1500);
@@ -76,7 +76,7 @@ void loop()
       leds.show();
       
       delay(3000);
-    }
+   // }
 }
 
 void readySetGo(byte wait)
